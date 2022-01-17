@@ -21,6 +21,14 @@ app.set('views', 'views');
 app.use(express.urlencoded({ extended: true })); //parse req body
 app.use(session({ secret: 'notagodsecret' }))
 
+//reqire login middleware
+const requireLogin = (req, res, next) => {
+    if (!req.session.user_id) {
+        return res.redirect('/login')
+    }
+    next();
+}
+
 app.get('/', (req, res) => {
     res.send('HOME PAGE')
 })
@@ -65,14 +73,9 @@ app.post('/logout', (req, res) => {
     res.redirect('/login');
 })
 
-app.get('/secret', (req, res) => {
-    if (!req.session.user_id) {
-        return res.redirect('/login')
-    }
+app.get('/secret', requireLogin, (req, res) => {
     res.render('secret')
 })
-
-
 
 app.listen(3000, () => {
     console.log("SERVING YOUR APP!")
