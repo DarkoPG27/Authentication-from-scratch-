@@ -15,7 +15,6 @@ mongoose.connect('mongodb://localhost:27017/loginDemo',
         console.log(err)
     })
 
-
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -60,13 +59,20 @@ app.post('/login', async (req, res) => {
     }
 })
 
+app.post('/logout', (req, res) => {
+    //  req.session.user_id = null;
+    req.session.destroy();
+    res.redirect('/login');
+})
+
 app.get('/secret', (req, res) => {
     if (!req.session.user_id) {
-        res.redirect('/login')
-
+        return res.redirect('/login')
     }
-    res.send('THIS IS SECRET! YOU CANNOT SE ME UNLESS YOU ARE LOGIN')
+    res.render('secret')
 })
+
+
 
 app.listen(3000, () => {
     console.log("SERVING YOUR APP!")
