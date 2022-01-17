@@ -3,6 +3,7 @@ const app = express();
 const User = require('./models/user');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 mongoose.connect('mongodb://localhost:27017/loginDemo',
     { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.urlencoded({ extended: true })); //parse req body
+app.use(session({ secret: 'notagodsecret' }))
 
 app.get('/', (req, res) => {
     res.send('HOME PAGE')
