@@ -24,9 +24,12 @@ app.get('/', (req, res) => {
     res.send('HOME PAGE')
 })
 
+//REGISTER
 app.get('/register', (req, res) => {
     res.render('register')
 })
+
+
 
 //POST ROUTE
 app.post('/register', async (req, res) => {
@@ -39,6 +42,10 @@ app.post('/register', async (req, res) => {
     })
     await user.save();
     res.redirect('/')
+})
+
+app.get('/login', (req, res) => {
+    res.render('login')
 })
 
 app.get('/secret', (req, res) => {
